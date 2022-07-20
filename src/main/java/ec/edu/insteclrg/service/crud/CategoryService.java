@@ -2,38 +2,36 @@ package ec.edu.insteclrg.service.crud;
 
 import java.util.Optional;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ec.edu.insteclrg.domain.Category;
 import ec.edu.insteclrg.dto.CategoriaDTO;
 import ec.edu.insteclrg.persistence.CategoryRepository;
-import ec.edu.insteclrg.service.GenericCRUDServiceImpl;
+import ec.edu.insteclrg.service.GenericCrudServiceImpl;
 
 @Service
-public class CategoryService extends GenericCRUDServiceImpl<Category, CategoriaDTO> {
+public class CategoryService extends GenericCrudServiceImpl<Category, CategoriaDTO> {
 
 	@Autowired
 	private CategoryRepository repository;
 
+	private ModelMapper modelMapper = new ModelMapper();
+
 	@Override
-	public Category mapearDominio(CategoriaDTO dtoObject) {
-		Category domain = new Category();
-		domain.setId(dtoObject.getId());
-		domain.setName(dtoObject.getNombre());
-		return domain;
+	public Optional<Category> find(CategoriaDTO dto) {
+		return repository.findById(dto.getId());
 	}
 
 	@Override
-	public CategoriaDTO mapearDTO(Category domainObject) {
-		CategoriaDTO dto = new CategoriaDTO();
-		dto.setId(domainObject.getId());
-		dto.setNombre(domainObject.getName());
-		return dto;
+	public CategoriaDTO mapToDto(Category domain) {
+		return modelMapper.map(domain, CategoriaDTO.class);
 	}
 
 	@Override
-	public Optional<Category> buscar(CategoriaDTO dtoObject) {
-		return repository.findById(dtoObject.getId());
+	public Category mapToDomain(CategoriaDTO dto) {
+		return modelMapper.map(dto, Category.class);
 	}
+
 }

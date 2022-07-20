@@ -11,6 +11,6 @@ public class CategoriaDTO implements Serializable {
 
 	private long id;
 
-	private String nombre;
+	private String name;
 
 }

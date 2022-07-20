@@ -20,28 +20,28 @@ import ec.edu.insteclrg.dto.CategoriaDTO;
 import ec.edu.insteclrg.service.crud.CategoryService;
 
 @RestController
-@RequestMapping("/v1.0/categoria")
+@RequestMapping("/api/v1.0/categoria/")
 public class CategoryController {
 
 	@Autowired
 	CategoryService service;
 
-	@PostMapping(path = "/guardar")
+	@PostMapping
 	public ResponseEntity<Object> guardar(@RequestBody CategoriaDTO dto) {
-		service.guardar(dto);
+		service.save(dto);
 		return new ResponseEntity<>(new ApiResponseDTO<>(true, null), HttpStatus.CREATED);
 	}
 
-	@PutMapping(path = "/actualizar")
+	@PutMapping
 	public ResponseEntity<Object> actualizar(@RequestBody CategoriaDTO dto) {
 		// TODO
 		// Completar
 		return null;
 	}
 
-	@GetMapping(path = "/listar")
+	@GetMapping
 	public ResponseEntity<Object> listar() {
-		List<CategoriaDTO> list = service.buscarTodo(new CategoriaDTO());
+		List<CategoriaDTO> list = service.findAll(new CategoriaDTO());
 		if (!list.isEmpty()) {
 			ApiResponseDTO<List<CategoriaDTO>> response = new ApiResponseDTO<>(true, list);
 			return (new ResponseEntity<Object>(response, HttpStatus.OK));
@@ -50,13 +50,13 @@ public class CategoryController {
 		}
 	}
 
-	@GetMapping(path = "/{id}/buscar")
+	@GetMapping(path = "{id}")
 	public ResponseEntity<Object> buscar(@PathVariable Long id) {
 		CategoriaDTO dto = new CategoriaDTO();
 		dto.setId(id);
-		Optional<Category> domain = service.buscar(dto);
+		Optional<Category> domain = service.find(dto);
 		if (!domain.isEmpty()) {
-			dto = service.mapearDTO(domain.get());
+			dto = service.mapToDto(domain.get());
 			return new ResponseEntity<>(new ApiResponseDTO<>(true, dto), HttpStatus.OK);
 		} else {
 			return new ResponseEntity<>(new ApiResponseDTO<>(false, null), HttpStatus.NOT_FOUND);
