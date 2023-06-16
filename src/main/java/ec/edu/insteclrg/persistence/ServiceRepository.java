@@ -1,6 +1,11 @@
 package ec.edu.insteclrg.persistence;
 
-public class ServiceRepository {
-	// TODO
-	// Completar
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import ec.edu.insteclrg.domain.Servicio;
+
+@Repository
+public interface ServiceRepository extends JpaRepository <Servicio, Long> {
+
 }

@@ -1,6 +1,11 @@
 package ec.edu.insteclrg.persistence;
 
-public class ProductRepository {
-	// TODO
-	// Completar
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import ec.edu.insteclrg.domain.Product;
+
+@Repository
+public interface ProductRepository extends JpaRepository <Product, Long> {
+
 }
